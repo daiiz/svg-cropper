@@ -1,4 +1,7 @@
 # svg-cropper
+https://daiiz.github.io/svg-cropper/
+
+## Development
 ```
 $ python -m SimpleHTTPServer 8000
 ```
