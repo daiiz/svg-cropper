@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>svg-cropper</title>
+    <meta charset='utf-8' />
+    <style>
+      body {
+        margin: 0 32px;
+      }
+      object {
+        display: block;
+      }
+      textarea {
+        width: 780px;
+        height: 360px;
+        font-size: 10pt;
+        font-family: monospace;
+      }
+      a {
+        color: #1555f3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>svg-cropper</h1>
+    <h2>SVG Code</h2>
+    <p>
+      SVG内に仕込んだJavaScriptで<code>width</code>, <code>height</code>, <code>viewBox</code>を動的に書き換える。<br>
+      スクリプトを実行するため、<code>object</code>要素で埋め込む必要がある。
+    </p>
+    <textarea disabled>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="612" height="612" viewBox="0 0 612 612">
+  <image x="0" y="0" width="612" height="612" xlink:href="https://gyazo.com/4568f5c4ec8688821ae0686b999349a2/raw" />
+  <foreignObject>
+    <script type="text/javascript">
+      const url = new URL(document.location)
+      const params = url.searchParams
+      const svg = document.querySelector('svg')
+      const image = document.querySelector('image')
+
+      const w = params.get('w') || image.getAttribute('width')
+      const h = params.get('h') || image.getAttribute('height')
+      if (w) svg.setAttribute('width', w)
+      if (h) svg.setAttribute('height', h)
+
+      const x = params.get('x') || 0
+      const y = params.get('y') || 0
+      svg.setAttribute('viewBox', `${x} ${y} ${w} ${h}`)
+    </script>
+  </foreignObject>
+</svg>
+    </textarea>
+
+    <h2><a href='/svg/photo1.svg' target='_blank' rel='noopener'>Photo 1</a></h2>
+    <pre>&lt;object data='/svg/photo1.svg?x=340&y=185&w=140&h=140' type='image/svg+xml'&gt;&lt;/object&gt;</pre>
+    <object data='/svg/photo1.svg?x=340&y=185&w=140&h=140' type='image/svg+xml'></object>
+    <pre>/svg/photo1.svg?x=120&y=387&w=170&h=170</pre>
+    <object data='/svg/photo1.svg?x=120&y=387&w=170&h=170' type='image/svg+xml'></object>
+
+    <h2><a href='/svg/photo2.svg' target='_blank' rel='noopener'>Photo 2</a></h2>
+    <pre>&lt;object data='/svg/photo2.svg?x=170&y=5&w=370&h=370' type='image/svg+xml'&gt;&lt;/object&gt;</pre>
+    <object data='/svg/photo2.svg?x=170&y=5&w=370&h=370' type='image/svg+xml'></object>
+
+
+    <p>
+      About: <a href='https://scrapbox.io/daiiz/svg-cropper' target='_blank' rel='noopener'>https://scrapbox.io/daiiz/svg-cropper</a><br>
+      by <a href='https://twitter.com/daizplus' target='_blank' rel='noopener'>daiiz</a>
+    </p>
+    <br />
+
+    <hr />
+    事後調査<br /><br />
+    どうやらSVGの仕様にSVG fragment identifiersというものがあるらしい。<br />
+    <a href='https://www.w3.org/TR/2003/REC-SVG11-20030114/linking.html#LinksIntoSVG' target='_blank' rel='noopener'>
+      https://www.w3.org/TR/2003/REC-SVG11-20030114/linking.html#LinksIntoSVG
+    </a>
+    <br />
+    これを使うとURLのfragmentで切り取る範囲を指定できる。<br />
+    埋め込み元の<code>object</code>や<code>img</code>要素に<code>width</code>, <code>height</code>属性を指定する必要がある点だけ注意。
+
+    <h2>#svgView(viewBox(x,y,w,h))</h2>
+    <!-- <img src='/svg/demo1.svg#svgView(viewBox(340,185,140,140))' width='140' height='140' /> -->
+    <pre>&lt;object data='/svg/photo1.svg#svgView(viewBox(340,185,140,140))' width='140' height='140' type='image/svg+xml'&gt;&lt;/object&gt;</pre>
+    <object data='/svg/photo1.svg#svgView(viewBox(340,185,140,140))' width='140' height='140' type='image/svg+xml'></object>
+    <br />
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="700" height="524" viewBox="0 0 700 524">
+  <image x="0" y="0" width="700" height="524" xlink:href="https://gyazo.com/355ac6a719e5705535e5c3c823891f43/raw"/>
+  <foreignObject>
+    <script type="text/javascript">
+      const url = new URL(document.location)
+      const params = url.searchParams
+      const svg = document.querySelector('svg')
+      const image = document.querySelector('image')
+
+      const w = params.get('w') || image.getAttribute('width')
+      const h = params.get('h') || image.getAttribute('height')
+      if (w) svg.setAttribute('width', w)
+      if (h) svg.setAttribute('height', h)
+
+      const x = params.get('x') || 0
+      const y = params.get('y') || 0
+      svg.setAttribute('viewBox', `${x} ${y} ${w} ${h}`)
+    </script>
+  </foreignObject>
+</svg>
